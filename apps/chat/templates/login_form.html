@@ -1,0 +1,29 @@
+<form hx-post="{% url 'login' %}" 
+      hx-target="#login-form-container" 
+      hx-swap="innerHTML">
+    {% csrf_token %}
+    
+    <!-- Display global non-field errors (like incorrect password) -->
+    {% if form.non_field_errors %}
+        <div class="error-banner" style="color: red; margin-bottom: 10px;">
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Render Form Fields -->
+    {% for field in form %}
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+                <span class="field-error" style="color: red; display: block;">
+                    {{ field.errors|striptags }}
+                </span>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <button type="submit">Log In</button>
+</form>
