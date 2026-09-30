@@ -25,12 +25,22 @@ SECRET_KEY = 'django-insecure-2^g279+i#+bv_a^35337sqo12!)xe+arrv+k5#ax*zj*2axeje
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "5d3c-102-209-57-213.ngrok-free.app"
+]
 
+CORS_ALLOWED_ORIGINS = [
+    "https://5d3c-102-209-57-213.ngrok-free.app "
+]
+
+CORS_ALLOWED_CREDENTIALS = True
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,6 +63,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'apps.urls'
 
+ASGI_APPLICATION = "chat.asgi.application"
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -69,6 +81,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'apps.wsgi.application'
+
+CHANNEL_LAYERS = {
+    "default": "channels_rabbitmq.core.RabbitmqChannelLayer",
+    "host": "amqp://pos_user:pos_password@127.0.0.1:15672/pos_vhost"
+}
 
 
 # Database

@@ -1,0 +1,12 @@
+sequenceDiagram
+
+Client ->> Server: (Request) some data (e.g page on demand)
+loop RequestSatus 
+    Server ->> Client: 200 response status
+end
+Server ->> Client: (Response), Here is the data you requested (FAQ, question page)
+Client ->> Server: (Request), User login
+loop AuthenticationStatus
+    Server ->> Client: (200 success code), Auth session cookie
+end
+Server ->> Client: (Response), Successful login 

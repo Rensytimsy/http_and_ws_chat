@@ -30,3 +30,14 @@ def login_view(request):
          
     form = AuthenticationForm()
     return render(request, "login.html", {"form": form})
+
+
+def chat_page(request):
+    
+    return render(request, "chat/index.html")
+
+def chat_room(request, room_name):
+    
+    return render(request, "chat/room.html", {"room_name": room_name})
+
+

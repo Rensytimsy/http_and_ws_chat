@@ -1,0 +1,17 @@
+sequenceDiagram
+Client ->> Server: Request protocal upgrade
+Server ->> Client: (Connected) 101 status upgrading protocol from http to ws/wss
+Client ->> Server: Start a session for the chat application
+Server ->> Client: Chat Session created
+
+loop ChatFlow: Send and Receive
+    Client ->> Server: "Hello world!"
+    Server ->> Client: "Hello world!",
+    Client ->> Server: "How are you doing, mate?",
+    Server ->> Client: "I am doing great.",
+    Client ->> Server: "Happy coding",
+    Server ->> Client: "Happy coding too"
+end
+
+Client ->> Server: Close Channel, Request chat session termination
+Server ->> Client: Disconnected ws channel disconnected
