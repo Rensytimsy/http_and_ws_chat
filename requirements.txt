@@ -1,0 +1,7 @@
+django
+django_channels
+djangorestframework
+pysqlite3-binary
+psycopg2-binary
+daphne
+channels_rabbitmq
