@@ -1,33 +1,44 @@
 import json #to handle data received and sent
+from asgiref.sync import async_to_sync
 
 
-from channels.generic.websocket import WebsocketConsumer
+from channels.generic.websocket import WebsocketConsumer, AsyncWebsocketConsumer
 # from channels.generic.websocket import
 
-class ChatWebSocketConsumer(WebsocketConsumer):
+class ChatWebSocketConsumer(AsyncWebsocketConsumer):
+
     
-    # def accept():
-    #     pass
-    
-    def connect(self):
+    async def connect(self):
+        self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
+        self.room_group_name = f"chat_{self.room_name}"
+        
+        await self.channel_layer.group_add(
+            self.room_group_name, self.channel_name
+        )
+        
         print("connected!")
-        self.accept()
-        return ""
+        await self.accept()
     
-    # def send():
-    #     pass
     
-    def receive(self, text_data): 
+    async def receive(self, text_data): 
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
         
-        self.send(text_data=json.dumps({
+        await self.channel_layer.group_send(
+            self.room_group_name, {"type": "chat.message", "message": message}
+        )
+        
+        
+    async def chat_message(self, event):
+        message = event["message"]
+        await self.send(text_data=json.dumps({
             "message": message
         }))
+
     
-    # def close(): 
-    #     pass
-    
-    def disconnect(self):
+    async def disconnect(self):
+        await self.channel_layer.group_discard(
+            self.room_group_name, self.channel_name
+        )
         print("disconnected!")
         pass

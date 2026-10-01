@@ -28,11 +28,11 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "5d3c-102-209-57-213.ngrok-free.app"
+    "5111-102-209-57-213.ngrok-free.app"
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://5d3c-102-209-57-213.ngrok-free.app "
+    "https://5111-102-209-57-213.ngrok-free.app"
 ]
 
 CORS_ALLOWED_CREDENTIALS = True
@@ -83,8 +83,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'apps.wsgi.application'
 
 CHANNEL_LAYERS = {
-    "default": "channels_rabbitmq.core.RabbitmqChannelLayer",
-    "host": "amqp://pos_user:pos_password@127.0.0.1:15672/pos_vhost"
+    "default": {
+        "BACKEND":"channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
 }
 
 
